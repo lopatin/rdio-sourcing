@@ -68,5 +68,15 @@ class RdioAPI(object):
 		#response = client.request('http://api.rdio.com/1/', 'POST', urllib.urlencode({'method': 'currentUser'}))
 		#print response[1]
 
+    # delete methods when UI is done. used for testing in terminal
+    def get_pin(self):
+        print 'Authorize this application at: %s?oauth_token=%s' % (self.parsed_content['login_url'], self.parsed_content['oauth_token'])
+        oauth_verifier = raw_input('Enter the PIN / OAuth verifier: ').strip()
+        return oauth_verifier
 
+    def make_authenticated_call(self):
+        response = self.client.request('http://api.rdio.com/1/', 'POST', urllib.urlencode({'method': 'currentUser'}))
+        print response[1]
+
+   
 
