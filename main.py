@@ -8,7 +8,6 @@ def main():
 	# pin = get pin from user
 	rdio_api.authorize_user_with_pin(pin)
     rdio_api.exchange_request_token_for_access_token()
-    rdio_api.prepare_for_authenticated_calls()
     # ready to make authrorized calls
 
 if __name__ == "__main__":
