@@ -2,25 +2,35 @@ var phantom = require('phantom'),
 	async = require('async');
 
 function Pandora (username, password) {
-	var browser = 
-	function login () {
+	var self = this;
 
-	}
+	self.login = function (fn) {
+		self.page.open("http://www.pandora.com/account/sign-in", function (status) {
+			self.page.evaluate(evaluator, evalHandler);
+		});
+
+		function evaluator () {
+			return document.title;
+		}
+
+		function evalHandler (result) {
+			fn(null, result);
+		}
+	};
 }
 
-phantom.create(function (ph) {
-	ph.createPage(function (page) {
-		page.open("http://www.google.com", function (status) {
-			console.log("Opened google?", status);
-			page.evaluate(function () { return document.title; }, function (result) {
-				console.log("Page title is " + result);
+exports.fetchTracks = function (username, password, fn) {
+	var pandora = new Pandora(username, password);
+	phantom.create(function (ph) {
+		ph.createPage(function (page) {
+			pandora.page = page;
+			// Series of actions to perform on the page
+			async.waterfall([
+				pandora.login
+			], function (err, result) {
 				ph.exit();
+				fn(result);
 			});
 		});
 	});
-});
-
-exports.fetchTracks = function (username, password) {
-	var pandora = new Pandora();
-	pandora.login(username, password);
 };
