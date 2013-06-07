@@ -16,12 +16,8 @@ class LastfmQuery:
 		rdioqueries = []
 		for album in json_data["albums"]["album"]:
 			rdioqueries.append(album["name"] + " " + album["artist"]["name"])
-		print rdioqueries
 		return rdioqueries
 
-
-querier = LastfmQuery()
-querier.getAlbums('jaisrael')
 
 
 
