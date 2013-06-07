@@ -1,5 +1,6 @@
 var express = require('express'),
-	app = express();
+	app = express(),
+	pandora = require('./pandora');
 
 app.use(express.static(__dirname+'/public'));
 
