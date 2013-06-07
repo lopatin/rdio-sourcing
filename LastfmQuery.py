@@ -18,6 +18,40 @@ class LastfmQuery:
 			rdioqueries.append(album["name"] + " " + album["artist"]["name"])
 		return rdioqueries
 
+	def getPlaylists(self,user):
+		response = urllib2.urlopen(baseURL+"?method=user.getPlaylists"+"&api_key="+api_key+"&user="+user+"&format="+format)
+		json_data = json.loads(response.read())
+		rdioqueries = {}
+		for playlist in json_data["playlists"]["playlist"]:
+			url = playlist["url"]
+			page = urllib2.urlopen(url).read()
+			found = True
+			find_index = 0
+			index = 0
+			length = len(page)
+			rdioqueries[playlist["title"]] = []
+			while index < int(playlist["size"]):
+				# get artist name
+				find_index = page.find("<a href=\"/music/",find_index,length)
+				find_index += 1
+				artist = page[page.find(">",find_index,length)+1:page.find("<",find_index,length)]
+
+				# get track name
+				find_index = page.find("<a href=\"/music/",find_index,length)
+				find_index += 1
+				track = page[page.find(">",find_index,length)+1:page.find("<",find_index,length)]
+
+				# advance to next track
+				find_index = page.find("<a href=\"/music/",find_index,length)
+				find_index += 1
+				index+=1
+
+				rdioqueries[playlist["title"]].append(artist + " " + track)
+		return rdioqueries
+
+querier = LastfmQuery()
+print querier.getPlaylists('RJ')
+
 
 
 
