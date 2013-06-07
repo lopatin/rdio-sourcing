@@ -14,6 +14,8 @@ class LastfmQuery:
 		response = urllib2.urlopen(baseURL+"?method=library.getAlbums"+"&api_key="+api_key+"&user="+user+"&format="+format)
 		json_data = json.loads(response.read())
 		rdioqueries = []
+		if json_data["albums"].keys().count("album") == 0:
+			return rdioqueries
 		for album in json_data["albums"]["album"]:
 			rdioqueries.append(album["name"] + " " + album["artist"]["name"])
 		return rdioqueries
@@ -22,6 +24,8 @@ class LastfmQuery:
 		response = urllib2.urlopen(baseURL+"?method=user.getPlaylists"+"&api_key="+api_key+"&user="+user+"&format="+format)
 		json_data = json.loads(response.read())
 		rdioqueries = {}
+		if json_data["playlists"].keys().count("playlist") == 0:
+			return rdioqueries
 		for playlist in json_data["playlists"]["playlist"]:
 			url = playlist["url"]
 			page = urllib2.urlopen(url).read()
@@ -48,9 +52,6 @@ class LastfmQuery:
 
 				rdioqueries[playlist["title"]].append(artist + " " + track)
 		return rdioqueries
-
-querier = LastfmQuery()
-print querier.getPlaylists('RJ')
 
 
 

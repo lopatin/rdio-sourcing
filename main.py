@@ -1,4 +1,5 @@
 import rdio
+import LastfmQuery
 
 def main():
 	rdio_api = rdio.RdioAPI()
@@ -13,6 +14,14 @@ def main():
 	# ready to make authrorized calls, example call:
 	rdio_api.make_authenticated_call()
 	# rdio_api.add_to_collection(list_of_artists, type="Album")
+	
+	lastfm = LastfmQuery.LastfmQuery()
+	lastfm_list_of_artists = lastfm.getAlbums("jaisrael")
+	rdio_api.add_to_collection(lastfm_list_of_artists, type="Album")
+
+	# for playlists
+	lastfm_list_of_playlists = lastfm.getPlaylists("jaisrael")
+	# rdio api create playlists
 
 if __name__ == "__main__":
 	main()
