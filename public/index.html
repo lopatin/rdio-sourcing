@@ -1,3 +1,52 @@
+<<<<<<< HEAD
+<head>
+  <title>Puppies</title>
+  <link rel="Shortcut Icon" href="images/favicon.ico"/>
+  <link rel="stylesheet" type="test/css" href="stylesheets/default.css"/>
+  <script type="text/javascript">
+    function lastfm_form(){
+      var f = document.getElementById('info_form');
+      f.innerHTML = "<form name='lastfm' method='get' action='none'>Last.fm Username: <input type=\"text\" name=\"user\"> <input type='submit' value='Get my music!'/> </form>";
+    }
+
+    function pandora_form(){
+      var f = document.getElementById('info_form');
+      f.innerHTML = "<form name='pandora' method='get' action='none'>Pandora Username: <input type=\"text\" name=\"user\"/> Pandora Password: <input type='test' name='pass'/> <input type='submit' value='Get my music!'/> </form>";
+    }
+
+    function rdio_connect(){
+      var f = document.getElementById('info_form');
+      f.innerHTML = "<form name='rdio_connect' method='get' action='none'>Rdio PIN: <input type=\"text\" name=\"pin\"> <input type='submit' value='Connect with Rdio!'/> </form>";
+      var posx = screen.width / 2 - 150;
+      var posy = screen.height / 2 - 250;
+      window.open('http://www.rdio.com','_blank','height=300px, width=300px, titlebar=no, location=no, left=' + posx + 'px, top=' + posy + 'px,','false')
+    }
+
+
+  </script>
+</head>
+<body>
+  <div id="welcome" class="page-wrap">puppies!</div>  
+
+  <div id="rdio_connect" class="page-wrap">
+    <div class="connect">Connect with Rdio!</div>
+    <img src="images/rdio.png"/>
+  </div>
+  <div class="page-wrap">
+    <nav>
+      <ul class="nav">
+      <li><a href="javascript:lastfm_form();" class="icon-music" class="others"><img src="images/lastfm.png" width="10px"/></a></li>
+      <li><a href="javascript:rdio_connect();" class="rdio icon-music2" style="background-color: transparent; background-image: none; box-shadow: none; width:280px; height:280px;"><img src="images/rdio.png" style="width: 213px; margin-top: 12%; margin-left: 1%;"/></a></li>
+      <li><a href="javascript:pandora_form();" class="icon-music2" class="others"><img src="images/pandora.png"/></a></li>
+      </ul>
+   </nav>
+ </div>
+
+  <div id="info_form">
+  </div>
+
+</body>
+=======
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,3 +55,4 @@
 <body>
 </body>
 </html>
+>>>>>>> e4f6a5f3ab8077ed07d7deb52cd452a15f3597e0
