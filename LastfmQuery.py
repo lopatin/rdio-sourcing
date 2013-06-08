@@ -17,7 +17,7 @@ class LastfmQuery:
 		if json_data["albums"].keys().count("album") == 0:
 			return rdioqueries
 		for album in json_data["albums"]["album"]:
-			rdioqueries.append(album["name"] + " " + album["artist"]["name"])
+			rdioqueries.append(album["artist"]["name"])
 		return rdioqueries
 
 	def getPlaylists(self,user):
