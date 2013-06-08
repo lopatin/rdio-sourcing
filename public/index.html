@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+</html>
 <head>
   <title>Puppies</title>
   <link rel="Shortcut Icon" href="images/favicon.ico"/>
@@ -5,17 +7,21 @@
   <script type="text/javascript">
     function lastfm_form(){
       var f = document.getElementById('info_form');
-      f.innerHTML = "<form name='lastfm' method='get' action='none'>Last.fm Username: <input type=\"text\" name=\"user\"> <input type='submit' value='Get my music!'/> </form>";
+      f.innerHTML = "<h2><span class='signin'></span>Sign In to Last.fm</h2><form name='lastfm' class='page-wrap' method='get' action='none'><fieldset><label for='user'>Last.fm Username:</label><br/><input type=\"text\" name=\"user\"><br/> <input type='submit' value='Get my music!'/> </fieldset> </form>";
+      var arrow = document.getElementById('lastfmarrow');
+      arrow.style.visibility = "visible";
     }
 
     function pandora_form(){
       var f = document.getElementById('info_form');
-      f.innerHTML = "<form name='pandora' method='get' action='none'>Pandora Username: <input type=\"text\" name=\"user\"/> Pandora Password: <input type='test' name='pass'/> <input type='submit' value='Get my music!'/> </form>";
+      f.innerHTML = "<h2><span class='signin'></span>Sign In to Pandora</h2><form class='page-wrap' name='pandora' method='get' action='none'><fieldset><label for='user'>Pandora Username: </label><br/><input type=\"text\" name=\"user\"/><br/><label for='pass'>Pandora Password:</label><br/><input type='test' name='pass'/><br/><input type='submit' value='Get my music!'/></fieldset></form>";
+      var arrow = document.getElementById('pandoraarrow');
+      arrow.style.visibility = "visible";
     }
 
     function rdio_connect(){
       var f = document.getElementById('info_form');
-      f.innerHTML = "<form name='rdio_connect' method='get' action='none'>Rdio PIN: <input type=\"text\" name=\"pin\"> <input type='submit' value='Connect with Rdio!'/> </form>";
+      f.innerHTML = "<h2><span class='signin'></span>Connect to Rdio</h2><form name='rdio_connect' method='get' action='none'><fieldset><label for='pin'>Rdio PIN:</label><input type=\"text\" name=\"pin\"> <input type='submit' value='Connect with Rdio!'/></fieldset></form>";
       var posx = screen.width / 2 - 150;
       var posy = screen.height / 2 - 250;
       window.open('http://www.rdio.com','_blank','height=300px, width=300px, titlebar=no, location=no, left=' + posx + 'px, top=' + posy + 'px,','false')
@@ -25,23 +31,30 @@
   </script>
 </head>
 <body>
-  <div id="welcome" class="page-wrap">puppies!</div>  
-
-  <div id="rdio_connect" class="page-wrap">
-    <div class="connect">Connect with Rdio!</div>
-    <img src="images/rdio.png"/>
+  <div id="section1" class="section">
+    <div id="welcome" class="page-wrap">Welcome to the name of our app!</div>  
+    <div id="rdio_connect" class="page-wrap">
+      <div class="connect">Transfer my music!</div>
+      <img src="images/rdio.png"/>
+      </div>
   </div>
-  <div class="page-wrap">
-    <nav>
-      <ul class="nav">
-      <li><a href="javascript:lastfm_form();" class="icon-music" class="others"><img src="images/lastfm.png" width="10px"/></a></li>
-      <li><a href="javascript:rdio_connect();" class="rdio icon-music2" style="background-color: transparent; background-image: none; box-shadow: none; width:280px; height:280px;"><img src="images/rdio.png" style="width: 213px; margin-top: 12%; margin-left: 1%;"/></a></li>
-      <li><a href="javascript:pandora_form();" class="icon-music2" class="others"><img src="images/pandora.png"/></a></li>
-      </ul>
-   </nav>
- </div>
-
-  <div id="info_form">
+  <div id="section2" class="section">
+    <img id="lastfmarrow" src="images/white-curved-arrow-hi2.png" class="arrow2" style="width: 120px; position:relative; left: 379px; top:221px; visibility: hidden;"/>
+    <img id="pandoraarrow" src="images/white-curved-arrow-hi.png" class="arrow1" style="width:120px; position:relative; left:635px; top:452px; visibility: hidden;"/>
+    <div class="page-wrap">
+      <nav>
+        <ul class="nav">
+          <li><a href="javascript:lastfm_form();" class="icon-music" class="others"><img src="images/lastfm.png" width="10px"/></a></li>
+          <li><a href="javascript:rdio_connect();" class="rdio icon-music2" style="background-color: transparent; background-image: none; box-shadow: none; width:280px; height:280px;"><img src="images/rdio.png" style="width: 213px; margin-top: 12%; margin-left: 1%;"/></a></li>
+          <li><a href="javascript:pandora_form();" class="icon-music2" class="others"><img src="images/pandora.png"/></a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <div id="section3" class="section">
+    <div id="info_form">
+    </div>
   </div>
 
 </body>
+</html>
