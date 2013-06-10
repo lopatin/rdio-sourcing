@@ -1,27 +1,66 @@
-import rdio
+import unicodedata
+
+from rdio import Rdio
 import LastfmQuery
 
 def main():
-	rdio_api = rdio.RdioAPI()
-	# use this url for rdio button
-	authorization_url = rdio_api.authorization_url  
-	
-	# at this point, user will click rdio button, get pin from rdio, and give us pin
-	
-	pin = rdio_api.get_pin()   # prompts in terminal for now until we link with buttons
-	rdio_api.authorize_user_with_pin(pin)
-	rdio_api.exchange_request_token_for_access_token()
-	# ready to make authrorized calls, example call:
-	rdio_api.make_authenticated_call()
-	# rdio_api.add_to_collection(list_of_artists, type="Album")
-	
+	CONSUMER_KEY, CONSUMER_SECRET = get_consumer_credentials()
+	rdio = Rdio((CONSUMER_KEY, CONSUMER_SECRET))
+	auth_url = rdio.begin_authentication('oob')
+
+	# redirect user to rdio, will give pin back
+
+	verifier = get_pin(auth_url)
+	saved_token = rdio.token # a two element tuple
+	rdio.complete_authentication(verifier)
+
+	print "fetching last fm artists"
 	lastfm = LastfmQuery.LastfmQuery()
 	lastfm_list_of_artists = lastfm.getAlbums("jaisrael")
-	rdio_api.add_to_collection(lastfm_list_of_artists, type="Album")
+	
+	print "===================="
+	print "LIST OF ARTISTS"
+	print "===================="
 
-	# for playlists
-	lastfm_list_of_playlists = lastfm.getPlaylists("jaisrael")
-	# rdio api create playlists
+	for artist in lastfm_list_of_artists:
+		print "===================="
+		print "ARTIST"
+		print artist
+		print "===================="
+		print "searching rdio for artist"
+		try:
+			response = rdio.call('search', {'query':artist, 'types':'Artist'})		
+		except UnicodeEncodeError:
+			print "unicode issue. skipping this artist"
+			continue
+		artist_key = response['result']['results'][0]['key']
+		if artist_key is not None:
+			print "getting tracks for artist"
+			track_objs = rdio.call('getTracksForArtist', {'artist':artist_key})['result']
+			track_keys_unicode_list = [ track['key'] for track in track_objs ]
+			if track_keys_unicode_list is not None:
+				# convert track keys to unicode
+				track_keys_ascii_list = [ unicodedata.normalize('NFKD', u).encode('ascii','ignore') for u in track_keys_unicode_list ]
+				track_keys_str = ""
+				for u in track_keys_ascii_list:
+					track_keys_str += u + ","
+				if track_keys_str.endswith(','):
+					track_keys_str = track_keys_str[:-1]
+				print "track keys adding to collection..."
+				print track_keys_str
+				print "adding artist's tracks to collection"
+				atc = rdio.call('addToCollection', {'keys':track_keys_str})
+				print atc
 
+def get_consumer_credentials():
+	f = open('config', 'r')
+	CONSUMER_KEY = f.readline().strip()
+	CONSUMER_SECRET = f.readline().strip()
+	return CONSUMER_KEY, CONSUMER_SECRET
+
+def get_pin(auth_url):
+	print 'Authorize this application at: %s' % (auth_url)
+	oauth_verifier = raw_input('Enter the PIN / OAuth verifier: ').strip()
+	return oauth_verifier
 if __name__ == "__main__":
 	main()
